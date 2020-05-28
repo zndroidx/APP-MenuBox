@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    默认实现从上端展开动画，原理同理-->
+    <style name="anim_box_top_scale_style">
+        <item name="android:windowEnterAnimation">@anim/anim_box_scale_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_box_scale_out</item>
+    </style>
+
+    <style name="anim_box_top_drop_style">
+        <item name="android:windowEnterAnimation">@anim/anim_box_drop_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_box_drop_out</item>
+    </style>
+
+    <style name="anim_box_top_slide_style">
+        <item name="android:windowEnterAnimation">@anim/anim_box_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_box_slide_out</item>
+    </style>
+
+    <style name="anim_box_top_over_shoot_style">
+        <item name="android:windowEnterAnimation">@anim/anim_box_over_shoot_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_box_over_shoot_out</item>
+    </style>
+</resources>
