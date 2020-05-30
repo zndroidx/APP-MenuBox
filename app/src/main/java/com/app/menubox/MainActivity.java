@@ -3,10 +3,9 @@ package com.app.menubox;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.zndroid.menubox.MenuBox;
 import com.zndroid.menubox.core.IMenuItemClick;
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .setAnimationStyle(R.style.anim_box_top_drop_style)
-                .setOutsideTouchable(false)
+                .setOutsideTouchable(true)
                 .create();
 
         menuBox.showFromTop(view, this);

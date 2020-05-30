@@ -1,7 +1,7 @@
 package com.zndroid.menubox.core;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.DrawableRes;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 
 /**
  * Created by lzy on 2020/5/27.

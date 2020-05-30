@@ -1,10 +1,10 @@
 ext {
     /////////////////////////
     //android lib
-    compileSdkVersion = 28
+    compileSdkVersion = 29
     buildToolsVersion = "28.0.3"
-    minSdkVersion = 17
-    targetSdkVersion = 28
+    minSdkVersion = 16
+    targetSdkVersion = 29
 
     supportVersion = "28.0.0"
 
@@ -17,7 +17,7 @@ ext {
     user_name = "lazy"
     psw = "123456"
 
-    groupId = 'com.zndroidx'
+    groupId = 'com.zndroid'
     description = "menu box lib"
     type = "aar"
 
