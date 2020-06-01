@@ -41,7 +41,6 @@ public class MenuBox extends PopupWindow {
         public Builder(Context context) {
             params = new MenuController.PopupParams(context);
             params.mView = null;
-            params.layoutResId = R.layout.layout_menu_box;
         }
 
         /**
@@ -66,19 +65,6 @@ public class MenuBox extends PopupWindow {
         public Builder setWidthAndHeight(int width, int height) {
             params.mWidth = width;
             params.mHeight = height;
-            return this;
-        }
-
-        /**
-         * 设置宽度和高度 如果不设置 默认是wrap_content
-         *
-         * @param isWidthFull
-         * @return Builder
-         */
-        public Builder setFullScreen(boolean isWidthFull) {
-            if (isWidthFull)
-                params.mWidth = ViewGroup.LayoutParams.MATCH_PARENT;
-            params.mHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
             return this;
         }
 
@@ -117,7 +103,8 @@ public class MenuBox extends PopupWindow {
         }
 
         /**
-         * 设置列数，如果数据源少于设置的列数，则显示一行，列数为数据源的数目
+         * 横向布局时为列数，竖向布局时为行数
+         * 设置列数/行数，如果数据源少于设置的列数/行数，则显示一行/列，列数为数据源的数目
          *
          * @param row
          * return Builder
@@ -182,9 +169,24 @@ public class MenuBox extends PopupWindow {
             return this;
         }
 
+        /**
+         * 设置是否是竖布局菜单（左右显示菜单时设置此属性为true，即竖布局菜单）
+         * */
+        public Builder setVertical(boolean vertical) {
+            params.isLeftOrRight = vertical;
+            if (params.isLeftOrRight) {
+                params.mWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
+                params.mHeight = ViewGroup.LayoutParams.MATCH_PARENT;
+            } else {
+                params.mWidth = ViewGroup.LayoutParams.MATCH_PARENT;
+                params.mHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+            }
+            return this;
+        }
+
         public MenuBox create() {
             final MenuBox menuBox = new MenuBox(params.mContext);
-            if (null !=itemClick && params.layoutResId != 0)
+            if (null !=itemClick)
                 menuBox.menuController.setOnItemClick(new IMenuItemClick() {
                     @Override
                     public void onItemClick(MenuItem item) {
@@ -216,7 +218,23 @@ public class MenuBox extends PopupWindow {
 
     public void showFromBottom(View anchorView, Activity activity) {
         if (isShowing()) return;
-        showAtLocation(anchorView, Gravity.START | Gravity.BOTTOM, 0, getNavigationBarHeight(activity));
+        showAtLocation(anchorView, Gravity.END | Gravity.BOTTOM, 0, getNavigationBarHeight(activity));
+    }
+
+    public void showFromBottom(View anchorView, int offset) {
+        if (isShowing()) return;
+        showAtLocation(anchorView, Gravity.END | Gravity.BOTTOM, 0, offset);
+    }
+
+    public void showFromLeft(View anchorView) {
+        if (isShowing()) return;
+        showAtLocation(anchorView, Gravity.START, 0, 0);
+    }
+
+    public void showFromRight(View anchorView) {
+        if (isShowing()) return;
+        setAnimationStyle(R.style.anim_menu_box_right_slide_style);
+        showAtLocation(anchorView, Gravity.END, 0, 0);
     }
 
     private int getStatusBarHeight(Activity activity) {
