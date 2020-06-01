@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 
 import com.zndroid.menubox.core.IMenuItemClick;
 import com.zndroid.menubox.core.MenuItem;
@@ -18,7 +20,7 @@ import java.util.List;
 public class MenuAdapter extends RecyclerView.Adapter<MenuViewHolder> {
     private List<MenuItem> menuItems;
     private IMenuItemClick iMenuItemClick;
-    
+
     @NonNull
     @Override
     public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,10 +51,33 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuViewHolder> {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (null != iMenuItemClick) {
-                            holder.redDotImageView.setVisibility(View.GONE);
-                            iMenuItemClick.onItemClick(item);
-                        }
+                        //按钮动画
+                        ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.9f,1.0f, 0.9f, Animation.RELATIVE_TO_SELF,0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                        scaleAnimation.setDuration(300);
+                        scaleAnimation.setFillAfter(true);
+                        scaleAnimation.setRepeatMode(Animation.REVERSE);
+                        scaleAnimation.setRepeatCount(1);
+                        scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                holder.redDotImageView.setVisibility(View.GONE);
+                                if (null != iMenuItemClick) {
+                                    iMenuItemClick.onItemClick(item);
+                                }
+                                holder.itemView.clearAnimation();
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+
+                            }
+                        });
+                        holder.itemView.startAnimation(scaleAnimation);
                     }
                 });
             }

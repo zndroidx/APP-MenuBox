@@ -52,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
         list.add(item3);
 
         menuBox = new MenuBox.Builder(this)
-                .setFullScreen(true)
                 .setMenuItemList(list)
-                .setRow(6)
-                .setBoxTitle("Menu Box")
+                .setRow(3)
+                .setVertical(true)
+                .setBoxTitle("工具箱")
                 .setBoxTitleSize(20.0f)
                 .setBoxCloseImage(R.mipmap.icon_control_camera_up_pressed)
                 .setOnItemClick(new IMenuItemClick() {
@@ -67,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setAnimationStyle(R.style.anim_box_top_drop_style)
-                .setOutsideTouchable(true)
+                .setOutsideTouchable(false)
+                .setAnimationStyle(R.style.anim_menu_box_left_slide_style)
                 .create();
 
-        menuBox.showFromTop(view, this);
+        menuBox.showFromRight(view);
 
     }
 
