@@ -41,6 +41,9 @@ public class MenuBox extends PopupWindow {
         public Builder(Context context) {
             params = new MenuController.PopupParams(context);
             params.mView = null;
+            //默认横向布局
+            params.mWidth = ViewGroup.LayoutParams.MATCH_PARENT;
+            params.mHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
         }
 
         /**
