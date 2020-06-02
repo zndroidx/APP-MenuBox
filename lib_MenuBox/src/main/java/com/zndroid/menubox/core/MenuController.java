@@ -22,8 +22,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zndroid.menubox.MenuBox;
-import com.zndroid.menubox.model.MenuAdapter;
 import com.zndroid.menubox.R;
+import com.zndroid.menubox.model.MenuAdapter;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
@@ -37,6 +37,7 @@ public class MenuController {
     private WeakReference<Context> mContextWeakReference;
     private MenuBox popupWindow;
 
+    private boolean isLeftOrRight = false;//判断是否是左右菜单
     private int layoutResId;    //布局id
     private View mView;         //临时变量
     public View mPopupView;     //弹窗布局View
@@ -67,6 +68,10 @@ public class MenuController {
         mView = null;
         this.layoutResId = layoutResId;
         installContent(row);
+    }
+
+    public void setLeftOrRight(boolean isLeftOrRight) {
+        this.isLeftOrRight = isLeftOrRight;
     }
 
     public void setView(View view, int row) {
@@ -121,8 +126,14 @@ public class MenuController {
         if (menuItemList.size() < row)
             row = menuItemList.size();
 
-        GridLayoutManager layoutManager = new GridLayoutManager(mContextWeakReference.get(), row);
-        recyclerView.setLayoutManager(layoutManager);
+        if (isLeftOrRight) {
+            GridLayoutManager layoutManager = new GridLayoutManager(mContextWeakReference.get(), row, GridLayoutManager.HORIZONTAL, false);
+            recyclerView.setLayoutManager(layoutManager);
+        } else {
+            GridLayoutManager layoutManager = new GridLayoutManager(mContextWeakReference.get(), row, GridLayoutManager.VERTICAL, false);
+            recyclerView.setLayoutManager(layoutManager);
+        }
+
         recyclerView.setAdapter(menuAdapter);
 
         LinearLayout linearLayout = mPopupView.findViewById(R.id.ll_box_bg);
@@ -227,7 +238,7 @@ public class MenuController {
         public int layoutResId;//布局id
         public Context mContext;
         public int mWidth, mHeight;//弹窗的宽和高
-        public boolean isShowBg, isShowAnim;
+        public boolean isShowBg, isShowAnim, isLeftOrRight;
         public float bg_level;//屏幕背景灰色程度
         public int animationStyle;//动画Id
         public int row;
@@ -244,11 +255,17 @@ public class MenuController {
         }
 
         public void apply(MenuController controller) {
+            controller.setLeftOrRight(isLeftOrRight);
             controller.setBoxTitle(box_title);
             controller.setBoxCloseImage(box_close_image_id);
             controller.setBoxTitleColor(box_title_color);
             controller.setBoxTitleSize(box_title_front_size);
             controller.setBoxBgColor(box_bg_color_id);
+
+            if (isLeftOrRight)
+                layoutResId = R.layout.layout_menu_box_vertical;
+            else
+                layoutResId = R.layout.layout_menu_box;
 
             if (mView != null) {
                 controller.setView(mView, row);
