@@ -187,6 +187,14 @@ public class MenuBox extends PopupWindow {
             return this;
         }
 
+        /**
+         * 设置是否触发点击菜单项按钮，缩放动画，默认不显示
+         * */
+        public Builder withButtonAnimation(boolean showAnimation) {
+            params.isButtonAnim = showAnimation;
+            return this;
+        }
+
         public MenuBox create() {
             final MenuBox menuBox = new MenuBox(params.mContext);
             if (null !=itemClick)

@@ -21,8 +21,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.zndroid.menubox.MenuBox;
-import com.zndroid.menubox.model.MenuAdapter;
 import com.zndroid.menubox.R;
+import com.zndroid.menubox.model.MenuAdapter;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
@@ -37,6 +37,7 @@ public class MenuController {
     private MenuBox popupWindow;
 
     private boolean isLeftOrRight = false;//判断是否是左右菜单
+    private boolean isButtonAnim = false;//按钮动画
     private int layoutResId;    //布局id
     private View mView;         //临时变量
     public View mPopupView;     //弹窗布局View
@@ -110,6 +111,10 @@ public class MenuController {
             this.box_bg_color = color;
     }
 
+    public void setButtonAnim(boolean showAnim) {
+        this.isButtonAnim = showAnim;
+    }
+
     private void installContent(int row) {
         if (layoutResId != 0) {
             mPopupView = LayoutInflater.from(mContextWeakReference.get()).inflate(layoutResId, null);
@@ -121,6 +126,7 @@ public class MenuController {
         menuAdapter = new MenuAdapter();
         menuAdapter.setMenuItems(menuItemList);
         menuAdapter.setItemClick(click);
+        menuAdapter.setButtonAnimation(isButtonAnim);
 
         if (menuItemList.size() < row)
             row = menuItemList.size();
@@ -237,7 +243,7 @@ public class MenuController {
         public int layoutResId;//布局id
         public Context mContext;
         public int mWidth, mHeight;//弹窗的宽和高
-        public boolean isShowBg, isShowAnim, isLeftOrRight;
+        public boolean isShowBg, isShowAnim, isLeftOrRight, isButtonAnim;
         public float bg_level;//屏幕背景灰色程度
         public int animationStyle;//动画Id
         public int row;
@@ -260,6 +266,7 @@ public class MenuController {
             controller.setBoxTitleColor(box_title_color);
             controller.setBoxTitleSize(box_title_front_size);
             controller.setBoxBgColor(box_bg_color_id);
+            controller.setButtonAnim(isButtonAnim);
 
             if (isLeftOrRight)
                 layoutResId = R.layout.layout_menu_box_vertical;

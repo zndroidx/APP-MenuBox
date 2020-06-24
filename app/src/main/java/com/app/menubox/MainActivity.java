@@ -3,9 +3,10 @@ package com.app.menubox;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.zndroid.menubox.MenuBox;
 import com.zndroid.menubox.core.IMenuItemClick;
@@ -52,8 +53,10 @@ public class MainActivity extends AppCompatActivity {
         list.add(item3);
 
         menuBox = new MenuBox.Builder(this)
+                .setFullScreen(true)
                 .setMenuItemList(list)
                 .setRow(3)
+                .withButtonAnimation(true)
                 .setVertical(true)
                 .setBoxTitle("工具箱")
                 .setBoxTitleSize(20.0f)
@@ -67,11 +70,11 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
                     }
                 })
+                .setAnimationStyle(R.style.anim_box_top_drop_style)
                 .setOutsideTouchable(false)
-                .setAnimationStyle(R.style.anim_menu_box_left_slide_style)
                 .create();
 
-        menuBox.showFromRight(view);
+        menuBox.showFromTop(view, this);
 
     }
 
