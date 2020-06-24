@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setAnimationStyle(R.style.anim_box_top_drop_style)
+                .setAnimationStyle(R.style.anim_menu_box_top_drop_style)
                 .setOutsideTouchable(false)
                 .create();
 
