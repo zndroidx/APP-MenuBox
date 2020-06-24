@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         menuBox = new MenuBox.Builder(this)
                 .setMenuItemList(list)
                 .setRow(3)
+                .withButtonAnimation(true)
                 .setVertical(true)
                 .setBoxTitle("工具箱")
                 .setBoxTitleSize(20.0f)

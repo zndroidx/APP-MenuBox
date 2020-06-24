@@ -23,6 +23,12 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuViewHolder> {
     private List<MenuItem> menuItems;
     private IMenuItemClick iMenuItemClick;
 
+    private boolean isButtonAnimation = false;
+
+    public void setButtonAnimation(boolean buttonAnimation) {
+        isButtonAnimation = buttonAnimation;
+    }
+
     @NonNull
     @Override
     public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,32 +60,33 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuViewHolder> {
                     @Override
                     public void onClick(View v) {
                         //按钮动画
-                        ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.9f,1.0f, 0.9f, Animation.RELATIVE_TO_SELF,0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                        scaleAnimation.setDuration(300);
-                        scaleAnimation.setFillAfter(true);
-                        scaleAnimation.setRepeatMode(Animation.REVERSE);
-                        scaleAnimation.setRepeatCount(1);
-                        scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
-
+                        if (!isButtonAnimation) {
+                            holder.redDotImageView.setVisibility(View.GONE);
+                            if (null != iMenuItemClick) {
+                                iMenuItemClick.onItemClick(item);
                             }
+                        } else
+                            showAnimation(holder.itemView, new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
 
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-                                holder.redDotImageView.setVisibility(View.GONE);
-                                if (null != iMenuItemClick) {
-                                    iMenuItemClick.onItemClick(item);
                                 }
-                                holder.itemView.clearAnimation();
-                            }
 
-                            @Override
-                            public void onAnimationRepeat(Animation animation) {
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    holder.redDotImageView.setVisibility(View.GONE);
+                                    if (null != iMenuItemClick) {
+                                        iMenuItemClick.onItemClick(item);
+                                    }
+                                    holder.itemView.clearAnimation();
+                                }
 
-                            }
-                        });
-                        holder.itemView.startAnimation(scaleAnimation);
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+
                     }
                 });
             }
@@ -99,5 +106,16 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuViewHolder> {
 
     public void setItemClick(IMenuItemClick click) {
         this.iMenuItemClick = click;
+    }
+
+    private void showAnimation(View view, Animation.AnimationListener listener) {
+        //按钮动画
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.9f,1.0f, 0.9f, Animation.RELATIVE_TO_SELF,0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleAnimation.setDuration(300);
+        scaleAnimation.setFillAfter(true);
+        scaleAnimation.setRepeatMode(Animation.REVERSE);
+        scaleAnimation.setRepeatCount(1);
+        scaleAnimation.setAnimationListener(listener);
+        view.startAnimation(scaleAnimation);
     }
 }
